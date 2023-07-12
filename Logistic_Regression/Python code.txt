@@ -1,0 +1,65 @@
+#Loading the Data
+
+import pandas as pd
+import numpy as np
+import sklearn as sl
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+titanic = pd.read_csv("Titanic.csv")
+
+titanic.head()
+
+
+# Drop features that do not seem to add any value to our model
+titanic.drop(['PassengerId', 'Name', 'Ticket', 'Cabin'], axis=1, inplace=True)
+
+
+# Create categorical dummies for the embarkment ports
+ports = pd.get_dummies(titanic.Embarked, prefix='Embarked')
+ports.head()
+
+
+titanic = titanic.join(ports)
+titanic.drop(['Embarked'], axis=1, inplace=True)
+
+
+#Transform gender names to binaries
+titanic.Sex = titanic.Sex.map({'male': 0, 'female': 1})
+
+
+#Replace missing values
+titanic[pd.isnull(titanic).any(axis=1)]
+
+
+titanic.Age.fillna(titanic.Age.mean(), inplace=True)
+
+
+#Train and Test split
+y = titanic.Survived.copy()
+X = titanic.drop(['Survived'], axis=1)
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=123)
+
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+
+y_pred = pd.Series(model.predict(X_test))
+y_test = y_test.reset_index(drop=True)
+z = pd.concat([y_test, y_pred], axis=1)
+z.columns = ['True', 'Prediction']
+z.head()
+
+
+#To evaluate the entire test set, we can use the metrics module from the scikit-learn package.
+print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+print("Precision:", metrics.precision_score(y_test, y_pred))
+print("Recall:", metrics.recall_score(y_test, y_pred))
+

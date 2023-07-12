@@ -1,0 +1,102 @@
+Lasso on some values
+
+
+import numpy as np
+from sklearn.linear_model import Lasso
+
+# Creating a toy dataset
+X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+y = np.array([10, 11, 12])
+
+# Creating Lasso model with alpha=0.1
+lasso = Lasso(alpha=0.1)
+
+# Fitting the model on the dataset
+lasso.fit(X, y)
+
+# Printing the coefficients and intercept
+print("Coefficients:", lasso.coef_)
+print("Intercept:", lasso.intercept_)
+
+
+LASSO ON DATASET
+
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Loading the Boston housing dataset
+boston = load_boston()
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(boston.data, boston.target, test_size=0.2, random_state=42)
+
+# Creating a Lasso model with alpha=0.1
+lasso = Lasso(alpha=0.1)
+
+# Fitting the model on the training set
+lasso.fit(X_train, y_train)
+
+# Predicting on the testing set
+y_pred = lasso.predict(X_test)
+
+# Calculating the mean squared error of the predictions
+mse = mean_squared_error(y_test, y_pred)
+
+# Printing the mean squared error and the coefficients of the Lasso model
+print("Mean Squared Error:", mse)
+print("Coefficients:", lasso.coef_)
+
+
+
+RIDGE ON SOME VALUES
+
+import numpy as np
+from sklearn.linear_model import Ridge
+
+# Creating a toy dataset
+X = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+y = np.array([10, 11, 12])
+
+# Creating Ridge model with alpha=0.1
+ridge = Ridge(alpha=0.1)
+
+# Fitting the model on the dataset
+ridge.fit(X, y)
+
+# Printing the coefficients and intercept
+print("Coefficients:", ridge.coef_)
+print("Intercept:", ridge.intercept_)
+
+
+
+RIDGE ON DATASET
+
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Loading the Boston housing dataset
+boston = load_boston()
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(boston.data, boston.target, test_size=0.2, random_state=42)
+
+# Creating a Ridge model with alpha=0.1
+ridge = Ridge(alpha=0.1)
+
+# Fitting the model on the training set
+ridge.fit(X_train, y_train)
+
+# Predicting on the testing set
+y_pred = ridge.predict(X_test)
+
+# Calculating the mean squared error of the predictions
+mse = mean_squared_error(y_test, y_pred)
+
+# Printing the mean squared error and the coefficients of the Ridge model
+print("Mean Squared Error:", mse)
+print("Coefficients:", ridge.coef_)
+

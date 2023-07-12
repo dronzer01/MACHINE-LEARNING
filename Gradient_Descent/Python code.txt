@@ -1,0 +1,41 @@
+def cost_function(X, y, theta):
+    m = len(y)
+    J = np.sum((X.dot(theta) - y) ** 2) / (2 * m)
+    return J
+
+def gradient_descent(X, y, theta, alpha, iterations):
+    m = len(y)
+    J_history = np.zeros(iterations)
+    
+    for i in range(iterations):
+        h = X.dot(theta)#y predicted
+        theta = theta - alpha * (1 / m) * (X.T.dot(h - y))
+        J_history[i] = cost_function(X, y, theta)
+    
+    return theta, J_history
+
+import numpy as np
+
+# generate sample data
+X = np.random.rand(100, 3)
+y = X.dot(np.array([1, 2, 3])) + np.random.randn(100) * 0.5
+
+# add a column of ones to X for the bias term
+X = np.hstack((np.ones((100, 1)), X))
+
+# initialize theta to zeros
+theta = np.zeros(4)
+
+
+alpha = 0.01
+iterations = 1000
+theta, J_history = gradient_descent(X, y, theta, alpha, iterations)
+print(theta)
+print(J_history)
+
+import matplotlib.pyplot as plt
+
+plt.plot(range(iterations), J_history)
+plt.xlabel('Iterations')
+plt.ylabel('Cost Function')
+plt.show()
